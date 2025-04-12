@@ -134,3 +134,4 @@ hive > set hive.exec.dynamic.partition.mode = nonstrict;
 hive > set hive.txn.manager = org.apache.hadoop.hive.ql.lockmgr.DbTxnManager;
 hive > set hive.compactor.initiator.on = true;
 hive > set hive.compactor.worker.threads = 1;
+CLUSTERED BY (id) INTO 2 BUCKETS STORED AS ORC
