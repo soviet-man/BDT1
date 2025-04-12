@@ -135,3 +135,20 @@ hive > set hive.txn.manager = org.apache.hadoop.hive.ql.lockmgr.DbTxnManager;
 hive > set hive.compactor.initiator.on = true;
 hive > set hive.compactor.worker.threads = 1;
 CLUSTERED BY (id) INTO 2 BUCKETS STORED AS ORC
+
+-- Overwrite the table with updated data.
+INSERT OVERWRITE TABLE employee_nt
+SELECT empid, 
+       empname, 
+       empcity, 
+       CASE 
+           WHEN empid = 101 THEN 110000  -- Update salary for empid 101
+           ELSE salary                  -- Keep original salary for other rows.
+       END AS salary
+FROM employee_nt;
+
+-- Overwrite the table by selecting and keeping only the rows you want.
+INSERT OVERWRITE TABLE employee_nt
+SELECT *
+FROM employee_nt
+WHERE empid != 102;  -- Exclude empid 102 (delete this row)
